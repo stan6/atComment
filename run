@@ -1,0 +1,344 @@
+#!/bin/bash
+currdir=$(pwd)
+function build_doclet() {
+  # svn co https://subversion.cs.illinois.edu/svn/cs597commentAnalysis/trunk/NullParam
+  cd $currdir/NullParam
+  ./compile
+}
+
+function run_doclet() {
+  echo "running:"
+  echo "javadoc -classpath $PROJBIN:$PROJLIB -doclet javadocAnalyzer.NullParam -docletpath $DOCLETPATH -sourcepath $SRCPATH $PACKAGES" 
+  javadoc -classpath $PROJBIN:$PROJLIB \
+    -doclet javadocAnalyzer.NullParam -docletpath $DOCLETPATH -sourcepath $SRCPATH $PACKAGES
+}
+
+function run_randoop() {
+  #use a directory name that includes the nullratio,timelimit and inputlimit if -d is not used
+  DIR="Null"$NULLRATIO"Time"$TIMELIMIT"Input"$INPUTLIMIT
+
+  #save junit tests in ~/projects/comments/programs/${NAME}/WITH_COMMENT for randoop with extension 
+  # or in ~/projects/comments/programs/${NAME}/NO_COMMENT for randoop without extension
+  COMMENTS_ON=$DIR"_WITH_COMMENT"
+  if [ -z "$1" ]; then
+    COMMENTS_ON=$DIR"_NO_COMMENT"
+  fi    
+  BASE=$currdir/programs/${NAME} 
+  #BASE=${HOME}/projects/comments/programs/${NAME}
+  TIMESTAMP=$(date +%H%M%S)
+  LOGFILE=${BASE}-${COMMENTS_ON}-${TIMESTAMP}.log
+  DIR_NAME=${BASE}/${COMMENTS_ON}-${TIMESTAMP}
+  ( java -Xmx1024M -classpath $RANDOOPJAR:$RANDOOPLIB:$PROJBIN:$PROJLIB randoop.main.Main gentests \
+   --force_null=true --output_tests=fail --classlist=$CLASSLISTPATH --junit_output_dir=${DIR_NAME} \
+   --null-ratio=$NULLRATIO --timelimit=$TIMELIMIT --inputlimit=$INPUTLIMIT $* ) 2>&1 | tee $LOGFILE
+  getStat ${DIR_NAME}/allStatementStatuses.txt
+}
+
+#--check_object_contracts=$CHECK -forbid_null=$FORBID_NULL
+function run_randoop_without_comments() {
+  run_randoop
+}
+
+function run_randoop_with_comments() {
+  run_randoop --use_null_annotation=true --sourcepath=$SRCPATH
+}
+
+function getStat(){
+  num_spec=`grep "Specific-.*/NULL ," $1 | wc -l`
+  echo "Specific:$num_spec" 
+  num_normal=`grep "Normal/NULL ," $1 | wc -l`
+  echo "Normal:$num_normal"
+  num_any=`grep "Any/NULL ," $1 | wc -l`
+  echo "Any:$num_any"
+  echo "Total:$num_spec+$num_normal+$num_any"
+}
+
+function build_randoop() {
+  # svn co https://subversion.cs.illinois.edu/svn/cs597commentAnalysis/trunk/cloned-randoop
+  cd $currdir/cloned-randoop
+  make clean
+  make build
+}
+
+function set_program_specific_variables() {
+  NAME=$1
+  case ${1} in
+    collections)
+      SRCPATH=$currdir/programs/collections/src/java
+      PROJBIN=$currdir/programs/collections/build/classes
+      PACKAGES="org.apache.commons.collections"
+      ;;
+    jodatime)
+      SRCPATH=$currdir/programs/jodatime/src/main/java/
+      PROJBIN=$currdir/programs/jodatime/build/classes
+      PROJLIB=$currdir/programs/jodatime/lib
+      PACKAGES="org.joda.time org.joda.time.chrono org.joda.time.field"
+      ;;
+    lucene)
+      SRCPATH=$currdir/programs/lucene/src/java
+      PROJBIN=$currdir/programs/lucene/build/classes/java
+      PACKAGES="org.apache.lucene org.apache.lucene.analysis org.apache.lucene.analysis.standard org.apache.lucene.document org.apache.lucene.index org.apache.lucene.messages org.apache.lucene.queryParser org.apache.lucene.search"
+      ;;
+    jfreechart)
+      SRCPATH=$currdir/programs/jfreechart/source
+      PROJLIB=$currdir/programs/jfreechart/lib/* 
+      PROJBIN=$currdir/programs/jfreechart/build
+      PACKAGES="org.jfree.chart org.jfree.chart.util org.jfree.chart.annotations org.jfree.chart.axis org.jfree.chart.block org.jfree.chart.entity org.jfree.chart.event"
+      ;;
+    swt)
+      SRCPATH=$currdir/programs/swt/src
+      PROJBIN=$currdir/programs/swt/bin
+      PACKAGES="org.eclipse.swt.graphics org.eclipse.swt.widgets org.eclipse.swt.events org.eclipse.swt.browser"
+      ;;
+    log4j)
+      SRCPATH=$currdir/programs/log4j/src/main/java
+      PROJBIN=$currdir/programs/log4j/dist/classes
+      PACKAGES="org.apache.log4j"
+      ;;
+    glazed)
+      SRCPATH=$currdir/programs/glazed/source/
+      PROJBIN=$currdir/programs/glazed/target/classes
+      PACKAGES="ca.odell.glazedlists ca.odell.glazedlists.util.concurrent"
+      ;;
+    jodamoney)
+      SRCPATH=$currdir/programs/jodamoney/src/main/java
+      PROJBIN=$currdir/programs/jodamoney/target/classes
+      PACKAGES="org.joda.money org.joda.money.format"
+      ;;
+      math)
+      SRCPATH=$currdir/programs/math/src/main/java
+      PROJBIN=$currdir/programs/math/target/classes
+      PROJLIB=$currdir/programs/math/lib/*
+      PACKAGES="org.apache.commons.math org.apache.commons.math.util org.apache.commons.math.linear org.apache.commons.math.fractions"
+      ;;
+    itext)
+      SRCPATH=$currdir/programs/itext/itext/src/main/java/
+      PROJBIN=$currdir/programs/itext/itext/target/classes
+      PACKAGES="com.itextpdf.text.pdf"
+      ;;
+    cobertura)
+      SRCPATH=$currdir/programs/cobertura/src/
+      PROJBIN=$currdir/programs/cobertura/build/classes
+      PROJLIB=$currdir/programs/cobertura/lib/*
+      PACKAGES="net.sourceforge.cobertura.util net.sourceforge.cobertura.reporting"
+      ;;
+   rome)
+      SRCPATH=$currdir/programs/rome/src/java/
+      PROJBIN=$currdir/programs/rome/target/classes
+      PROJLIB=$currdir/programs/rome/target/lib/*
+      PACKAGES="com.sun.syndication.feed com.sun.syndication.feed.impl com.sun.syndication.feed.atom com.sun.syndication.feed.rss com.sun.syndication.feed.synd com.sun.syndication.feed.synd.impl"
+      ;;
+    map)
+      SRCPATH=$currdir/programs/map/
+      PACKAGES="p"
+      ;;
+   xalan)
+     SRCPATH=$currdir/programs/xalan/src/
+     PROJBIN=$currdir/programs/xalan/build/*
+     PROJLIB=$currdir/programs/xalan/lib/*
+     PACKAGES="org.apache.xalan.xslt org.apache.xalan.xslt.dom org.apache.xalan.templates org.apache.xalan.transformer org.apache.xalan.expressions org.apache.xalan.xsltc.trax"
+   ;;
+   jackson)
+     SRCPATH=$currdir/programs/jackson/src/java/
+     PROJBIN=$currdir/programs/jackson/build/classes/core
+     PROJLIB=$currdir/programs/jackson/lib/*
+     PACKAGES="org.codehaus.jackson org.codehaus.jackson.util org.codehaus.jackson.impl"
+   ;;
+   betwixt)
+     SRCPATH=$currdir/programs/betwixt/src/java
+     PROJBIN=$currdir/programs/betwixt/target/classes
+     PROJLIB=$currdir/programs/betwixt/target/lib/*
+     PACKAGES="org.apache.commons.betwixt org.apache.commons.betwixt.digester org.apache.commons.betwixt.expression org.apache.commons.betwixt.io org.apache.commons.betwixt.registry org.apache.commons.betwixt.schema org.apache.commons.betwixt.strategy"
+  ;;
+  stripe)
+   SRCPATH=$currdir/programs/stripe/src/
+   PROJBIN=$currdir/programs/stripe/classes
+   PROJLIB=$currdir/programs/stripe/lib/deploy/*
+   PACKAGES="net.sourceforge.stripes.util"
+  ;;
+  esac
+  CLASSLISTPATH=$currdir/${1}-classes.txt
+ }
+ 
+function set_shared_variables() {
+  echo "CURRDIR:$currdir"
+  DOCLETPATH=$currdir/NullParam/bin
+  RANDOOPJAR=$currdir/cloned-randoop/bin
+  RANDOOPLIB=$currdir/cloned-randoop/lib/*
+  CLASSPATH=$currdir/cloned-randoop/lib/*
+}
+
+
+function USAGE () {
+  echo
+  echo "USAGE: "
+  echo "    run [-?dnti]"
+  echo
+  echo "OPTIONS:"
+  echo "    -d  directory name. Default is Null[$NULLRATIO]Time[$TIMELIMIT]Input[$INPUTLIMIT]_WITH_COMMENTS"
+  echo "    -n  null ratio. Default is 0.5 (double)"
+  echo "    -t  time limit in seconds. Default is 100 (int)"
+  echo "    -i  input limit. Default is 100000000 (int)"
+  echo "    -o	Runs randoop only once"
+  echo "    -r  Runs doclet only"
+  echo "    -?  this usage information"
+  echo
+  echo "EXAMPLE:"
+  echo "    run jodatime -n 0.4 -t 200 -r true"
+  echo
+  exit $E_OPTERROR    # Exit and explain usage, if no argument(s) given.
+}
+
+
+function check_null_ratio() {
+  if [ -z "$1" ]; then
+    USAGE
+    exit 1
+  fi
+
+  NAME=$1
+  NULLRATIO=0.5
+  TIMELIMIT=100
+  INPUTLIMIT=100000000
+  FORBID_NULL=false
+  CHECK=true
+  RUNONE=false
+  RUNDOC=false
+  args=$*
+  Option=${args#$1}
+  for i; do
+  case "$i" in
+    -o	) shift;
+	RUNONE=$2
+	shift ;;
+    -d  ) shift;
+          DIR="$2"
+          shift ;;
+    -n  ) shift;
+          NULLRATIO="$2"
+          shift ;;
+    -t  )shift; 
+         TIMELIMIT="$2"
+        shift ;;
+    -i  ) shift;
+          INPUTLIMIT="$2"
+          shift ;;
+    -f  ) shift;
+          FORBID_NULL=$2
+          shift ;;
+    -c ) shift;
+          CHECK=$2
+          shift ;;
+    -r) shift;
+          RUNDOC=$2
+          shift ;;
+
+    --  ) shift; break ;;
+  esac
+  done
+ 
+  #convert null ratio to double
+  NULLRATIO=$(echo "scale=3;$NULLRATIO" | bc)
+}
+
+function run() {
+  check_null_ratio $*
+  set_program_specific_variables ${1}
+  set_shared_variables
+
+  if  $RUNDOC ; then
+    run_doclet
+    exit	
+  fi
+
+  # run doclet only if directory not there
+  inferDir="$currdir/programs/$NAME/inferNull"
+  #if [ ! -d $inferDir ]; then
+    run_doclet
+  #fi
+  
+  #if -o option is set, only run randoop once
+  if $RUNONE; then
+    run_randoop_with_comments 
+    get_data	
+  elif $FORBID_NULL || ! $CHECK ; then
+    run_randoop_with_comments 
+    run_randoop_without_comments
+  else
+    #TIMELIMIT=100 # default for Randoop
+    #ratios=$(seq 0.0 0.1 1.0)
+    #for ratio in $ratios
+    #do
+     # echo "Null Ratio = $ratio"
+      #NULLRATIO=$ratio
+      #run_randoop_with_comments 
+    #done
+
+    #NULLRATIO=0.5 # default null ratio (for our tool!)
+    #for timelimit in 50 100 200 400 # time limits
+    #do
+     # echo "Time limit = $timelimit"
+     # TIMELIMIT=$timelimit
+     # run_randoop_with_comments
+    #done
+   for timelimit in 50 100 200 400 800 # time limits
+   do		
+   	ratios=$(seq 0.0 0.1 0.6)
+   	for ratio in $ratios
+    	do
+   	      echo "Time limit = $timelimit Null Ratio = $ratio"
+   	      TIMELIMIT=$timelimit
+   	      NULLRATIO=$ratio
+   	      run_randoop_with_comments
+   	 done
+  done
+  fi
+  get_data
+}
+
+get_data() {
+  cd $currdir/programs/
+  LOGS=${NAME}-Null*.log
+  COMM=$(grep -h \\newcommand ${LOGS})
+  
+  if [ ! -z "$COMM" ]; then 
+    echo -E "${COMM}\n">>${NAME}dataA.tex
+  fi
+  skips=$(grep -h Skipping $LOGS | sort -u | less)
+  if [ ! -z "$skips" ]; then 
+    echo -e "$skips" >>${NAME}_skipTestA.data
+  fi 
+}
+
+
+function nullratio() {
+  case $NULLRATIO in
+    0.0) echo Ze;;
+    0.1) echo On;;
+    0.2) echo Tw;;
+    0.3) echo Th;;
+    0.4) echo Fo;;
+    0.5) echo Fi;;
+    0.6) echo Si;;
+    0.7) echo Se;;
+    0.8) echo Ei;;
+    0.9) echo Ni;;
+    1.0) echo In;;
+  esac
+}
+function timelimit() {
+  case $TIMELIMIT in
+    100) echo DT;;
+  esac
+}
+
+echo "REMEMBER to build_doclet (if files changed)"
+echo "REMEMBER to build_randoop (if files changed)"
+set_shared_variables
+if [ "$1" = "build_doclet" ]; then
+  build_doclet
+elif [ "$1" = "build_randoop" ]; then
+  build_randoop
+else
+  run $*
+fi

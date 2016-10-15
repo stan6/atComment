@@ -1,0 +1,13 @@
+org.apache.commons.collections.TransformerUtils
+org.apache.commons.collections.SetUtils
+org.apache.commons.collections.PredicateUtils
+org.apache.commons.collections.MapUtils
+org.apache.commons.collections.ListUtils
+org.apache.commons.collections.IteratorUtils
+org.apache.commons.collections.FactoryUtils
+org.apache.commons.collections.EnumerationUtils
+org.apache.commons.collections.ComparatorUtils
+org.apache.commons.collections.CollectionUtils
+org.apache.commons.collections.ClosureUtils
+org.apache.commons.collections.BufferUtils
+org.apache.commons.collections.BagUtils

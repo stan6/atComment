@@ -1,0 +1,11 @@
+export LIB=
+# Find tools.jar
+LIB=$(dirname $(readlink -f `which javac`))/../lib/tools.jar
+# We may not need anything else but tools.jar
+# for x in `grep lib .classpath | sed -e 's/^.*path="//' -e 'sX"/>.*$XX'`; do LIB=$x:$LIB; done
+echo $LIB
+export OUTPUT=`grep output .classpath | sed -e 's/^.*path="//' -e 'sX"/>.*$XX'`
+#### rm -r $OUTPUT
+mkdir -p $OUTPUT
+echo compiling SRC
+javac -d $OUTPUT -classpath $LIB `find src -name "*java" -type f`

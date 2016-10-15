@@ -1,0 +1,153 @@
+#!/bin/bash
+currdir=$(pwd)
+function create_programs_directory() {
+  cd $currdir
+  mkdir -p programs
+  cd programs
+}
+
+function compile_collections() {
+  create_programs_directory
+  wget https://archive.apache.org/dist/commons/collections/source/commons-collections-3.2.1-src.tar.gz
+  tar xfvz commons-collections-3.2.1-src.tar.gz
+  mv commons-collections-3.2.1-src collections
+  cd collections
+  ant
+}
+
+function compile_jodatime() {
+  create_programs_directory
+  svn export https://joda-time.svn.sourceforge.net/svnroot/joda-time/tags/v1_6_200 jodatime
+  cd jodatime
+  sed -i s/,installjunit// build.xml
+  ant compile
+}
+
+function compile_lucene() {
+  create_programs_directory
+  wget http://archive.apache.org/dist/lucene/java/lucene-2.9.3-src.zip
+  unzip lucene-2.9.3-src.zip
+  mv lucene-2.9.3 lucene
+  cd lucene
+  ant
+}
+
+function compile_jfreechart() {
+  create_programs_directory
+  wget -O jfreechart-1.0.13.zip "http://sourceforge.net/projects/jfreechart/files/1.%20JFreeChart/1.0.13/jfreechart-1.0.13.zip/download?_test=goal"
+  unzip jfreechart-1.0.13.zip
+  mv jfreechart-1.0.13 jfreechart
+  cd jfreechart
+  cd ant
+  sed -i 's/<delete dir="${basedir}\/build" \/>//' build.xml
+
+  ant compile
+}
+
+#version 0.8
+function compile_betwixt() {
+   create_programs_directory
+   svn export http://svn.apache.org/repos/asf/commons/proper/betwixt/trunk/ betwixt
+   cd betwixt
+   ant
+}
+
+function compile_swt() {
+   create_programs_directory
+   wget -O swt-3.8M2-gtk-linux-x86.zip "http://www.eclipse.org/downloads/download.php?file=/eclipse/downloads/drops/R-3.7.1-201109091335/swt-3.7.1-gtk-linux-x86.zip&url=http://mirror.cc.columbia.edu/pub/software/eclipse/eclipse/downloads/drops/R-3.7.1-201109091335/swt-3.7.1-gtk-linux-x86.zip&mirror_id=454"
+   unzip swt-3.8M2-gtk-linux-x86.zip -d swt
+   cd swt
+   unzip swt.jar -d bin
+   unzip src.zip -d src
+} 
+
+function compile_cobertura() {
+   create_programs_directory
+   svn export https://cobertura.svn.sourceforge.net/svnroot/cobertura/trunk/cobertura
+   cd cobertura
+   ant compile
+}
+
+function compile_guice() {
+   create_programs_directory
+   svn checkout http://google-guice.googlecode.com/svn/trunk/ guice
+   cd guice
+   ant
+}
+
+function compile_itext() {
+   create_programs_directory
+   svn co https://itext.svn.sourceforge.net/svnroot/itext/trunk itext
+   cd itext
+   ant
+}
+
+function compile_log4j() {
+  create_programs_directory
+  svn export https://svn.apache.org/repos/asf/logging/log4j/trunk log4j
+  cd log4j
+  ant build
+}
+
+function compile_glazedlists() {
+  create_programs_directory
+  svn export https://svn.java.net/svn/glazedlists~svn/trunk/ glazed
+  cd glazed
+  ant
+}
+
+function compile_xalan() {
+  create_programs_directory
+  svn co http://svn.apache.org/repos/asf/xalan/java/trunk xalan
+  cd xalan
+  ant compile
+}
+
+function compile_money() {
+  create_programs_directory
+  git clone https://github.com/JodaOrg/joda-money.git
+  mv joda-money jodamoney
+  cd jodamoney
+  mvn compile
+}
+
+function compile_maths(){
+  create_programs_directory
+  svn export http://svn.apache.org/repos/asf/commons/proper/math/trunk math
+  cd math
+  ant
+}
+
+function compile_all() {
+  case ${1} in
+    collections)
+      compile_collections
+      ;;
+    jodatime)
+      compile_jodatime
+      ;;
+    lucene)
+      compile_lucene
+      ;;
+    jfreechart)
+      compile_jfreechart
+      ;;
+    log4j)
+      compile_log4j
+      ;;
+    glazed)
+      compile_glazedlists
+      ;;
+    jodamoney)
+      compile_money
+      ;;
+    betwixt)
+     compile_betwixt
+     ;;
+    xalan)
+     compile_xalan
+    ;;
+  esac
+}
+
+compile_all $*

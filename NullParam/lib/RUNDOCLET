@@ -1,0 +1,2 @@
+javadoc -doclet javadocAnalyzer.NullParam -docletpath $HOME/projects/comments/NullParam/lib/NullParamDoclet.jar -sourcepath $HOME/projects/comments/RandoopExt/ApacheCommonCollection/commons-collections-3.2.1-src/src org.apache.commons.collections
+
