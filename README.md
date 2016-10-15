@@ -50,3 +50,15 @@ Created file: $DIR/RandoopTest0.java<br />
 ...<br />
 Created file: $DIR/RandoopTest.java<br />
 File RandoopTest[0-9]+.java are the file with specific tests while RandoopTest.java is the test class that include all the generated RandoopTest[0-9]+.java.
+
+##Citing @tComment
+If you use @tComment in an academic work, we would be really glad if you cite our paper using the following bibtex:
+@inproceedings{tan2012tcomment,
+  title={@ tcomment: Testing javadoc comments to detect comment-code inconsistencies},
+  author={Tan, Shin Hwei and Marinov, Darko and Tan, Lin and Leavens, Gary T},
+  booktitle={2012 IEEE Fifth International Conference on Software Testing, Verification and Validation},
+  pages={260--269},
+  year={2012},
+  organization={IEEE}
+}
+
