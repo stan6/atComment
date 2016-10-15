@@ -11,10 +11,10 @@ cloned-randoop:
 
 ##Instructions
 Below are the instructions for compiling the components in @tComment and to run one of the subject programs in the paper (i.e., ApacheCommonsCollections):
-1. To compile the NullParam project:<br /> 
+1. To compile the NullParam project:<br />
 ./run build_doclet
 
-2. To compile cloned-randoop project:<br />  
+2. To compile cloned-randoop project:<br /> 
 ./run build_randoop 
 
 3. To download ApacheCommonsCollections project, this will download the project into a subdirectory "programs/collections":<br />
@@ -36,12 +36,12 @@ OPTIONS:<br />
   -?  this usage information<br />
 
 EXAMPLE:<br />
-  run jodatime -n 0.4 -t 200 -r true<br />
+  ./run jodatime -n 0.4 -t 200 -r true<br />
 
 
 ##Output:
 There are two kinds of output generated:<br />
-1. Inferred null properties. You can refer to all the infer properties for each Java file by using the command: find . -name "*.infer"
+1. Inferred null properties. You can refer to all the infer properties for each Java file by using the command: find . -name "*.infer"<br />
 2. JUnit Test. At the end of the execution for run command (e.g., ./run collections -n 0.6 -t 50 -o), you will get a message indicating the location for the generated junit test like below:<br />
 Created file: $DIR/RandoopTest0.java<br />
 ...<br />
