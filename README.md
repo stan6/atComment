@@ -15,14 +15,14 @@ cloned-randoop:
 ##Instructions for Compilation: 
 Below are the instructions for compiling the components in @tComment in LINUX:<br />
 1. To compile the NullParam project:<br />
-./run build_doclet
+./run build_doclet<br />
 2. To compile cloned-randoop project:<br /> 
-./run build_randoop 
+./run build_randoop<br />
 
 ##Instructions for Running Example Program
 To run one of the subject programs in the paper (i.e., ApacheCommonsCollections):<br />
 1. To download ApacheCommonsCollections project, this will download the project into a subdirectory "programs/collections":<br />
-./compile_proj collections
+./compile_proj collections<br />
 2. Now, ready to run the script for Apache Commons Collections:<br /> 
 ./run collections -n 0.6 -t 50 -o  
 
