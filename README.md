@@ -10,17 +10,14 @@ cloned-randoop:
 - Automatically generates tests that checks for comment-code inconsistencies automatically:
 
 
-Below are the instructions for compiling the components in @tComment and to run one of the subject programs in the paper: ApacheCommonsCollections:
+Below are the instructions for compiling the components in @tComment and to run one of the subject programs in the paper (i.e., ApacheCommonsCollections):
 1. To compile the NullParam project:
-
 ./run build_doclet
 
 2. To compile cloned-randoop project:
-
 ./run build_randoop 
 
 3. To download ApacheCommonsCollections project, this will download the project into a subdirectory "programs/collections":
-
 ./compile_proj collections
 
 4. Now, ready to run the script for Apache Commons Collections:
