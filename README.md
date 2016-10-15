@@ -1,4 +1,6 @@
 # @tComment: Testing Javadoc Comments to Detect Comment-Code Inconsistencies
+@tComment automatically generate tests from Javadoc  comments,  specifically  tests for method  properties about null values and related exceptions
+#@tComment Design 
 @tComment consists of two components: (1) NullParam, and (2) cloned-randoop
 
 NullParam:
@@ -10,7 +12,7 @@ cloned-randoop:
 - Automatically generates tests that checks for comment-code inconsistencies automatically:
 
 ##Instructions
-Below are the instructions for compiling the components in @tComment and to run one of the subject programs in the paper (i.e., ApacheCommonsCollections):
+Below are the instructions for compiling the components in @tComment and to run one of the subject programs in the paper (i.e., ApacheCommonsCollections):<br />
 1. To compile the NullParam project:<br />
 ./run build_doclet
 
