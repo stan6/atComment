@@ -12,18 +12,20 @@ cloned-randoop:
 - modified Randoop
 - takes as input the same code and inferred properties, generates random tests for the methods in the code, checks the inferred properties, and reports inconsistencies.
 
-##Instructions
-Below are the instructions for compiling the components in @tComment and to run one of the subject programs in the paper (i.e., ApacheCommonsCollections):<br />
+##Instructions for Compilation: 
+Below are the instructions for compiling the components in @tComment in LINUX:<br />
 1. To compile the NullParam project:<br />
 ./run build_doclet
 
 2. To compile cloned-randoop project:<br /> 
 ./run build_randoop 
 
-3. To download ApacheCommonsCollections project, this will download the project into a subdirectory "programs/collections":<br />
+##Instructions for Running Example Program
+To run one of the subject programs in the paper (i.e., ApacheCommonsCollections):
+1. To download ApacheCommonsCollections project, this will download the project into a subdirectory "programs/collections":<br />
 ./compile_proj collections
 
-4. Now, ready to run the script for Apache Commons Collections:<br /> 
+2. Now, ready to run the script for Apache Commons Collections:<br /> 
 ./run collections -n 0.6 -t 50 -o  
 
 USAGE:<br />
