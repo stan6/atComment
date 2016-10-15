@@ -23,6 +23,7 @@ Below are the instructions for compiling the components in @tComment in LINUX:
 
 ##Instructions for Running Example Program
 To run one of the subject programs in the paper (i.e., ApacheCommonsCollections):
+
 1. To download ApacheCommonsCollections project, this will download the project into a subdirectory `programs/collections`: `./compile_proj collections`
 2. Now, ready to run the script for Apache Commons Collections: `./run collections -n 0.6 -t 50 -o`
 
