@@ -1,6 +1,9 @@
 # @tComment: Testing Javadoc Comments to Detect Comment-Code Inconsistencies
+
 @tComment automatically generate tests from Javadoc  comments,  specifically  tests for method  properties about null values and related exceptions
+
 #@tComment Design 
+
 @tComment consists of two components, where each component is located in the subdirectories: (1) NullParam, and (2) cloned-randoop
 
 NullParam:
@@ -14,18 +17,16 @@ cloned-randoop:
 
 ##Instructions for Compilation: 
 Below are the instructions for compiling the components in @tComment in LINUX:
-1. To compile the NullParam project:
-./run build_doclet
-2. To compile cloned-randoop project: 
-./run build_randoop
+
+1. To compile the NullParam project: `./run build_doclet`
+2. To compile cloned-randoop project: `./run build_randoop`
 
 ##Instructions for Running Example Program
 To run one of the subject programs in the paper (i.e., ApacheCommonsCollections):
-1. To download ApacheCommonsCollections project, this will download the project into a subdirectory "programs/collections":
-./compile_proj collections
-2. Now, ready to run the script for Apache Commons Collections: 
-./run collections -n 0.6 -t 50 -o  
+1. To download ApacheCommonsCollections project, this will download the project into a subdirectory `programs/collections`: `./compile_proj collections`
+2. Now, ready to run the script for Apache Commons Collections: `./run collections -n 0.6 -t 50 -o`
 
+```
 USAGE:
   run [-?dnti]
 
@@ -40,19 +41,27 @@ OPTIONS:
 
 EXAMPLE:
   ./run jodatime -n 0.4 -t 200 -r true
-
+```
 
 ##Output:
+
 There are two kinds of output generated:
+
 1. Inferred null properties. You can refer to all the infer properties for each Java file by using the command: `find . -name "*.infer"`  
-2. JUnit Test. At the end of the execution for run command (e.g., ./run collections -n 0.6 -t 50 -o), you will get a message indicating the location for the generated junit test like below:
+2. JUnit Test. At the end of the execution for run command (e.g., `./run collections -n 0.6 -t 50 -o`), you will get a message indicating the location for the generated junit test like below:
+
+```
 Created file: $DIR/RandoopTest0.java
 ...
 Created file: $DIR/RandoopTest.java
+```
+
 File RandoopTest[0-9]+.java are the file with specific tests while RandoopTest.java is the test class that include all the generated RandoopTest[0-9]+.java.
 
 ##Citing @tComment
+
 If you use @tComment in an academic work, we would be really glad if you cite our paper using the following bibtex:
+
 ```
 @inproceedings{tan2012tcomment,
   title={@ tcomment: Testing javadoc comments to detect comment-code inconsistencies},
