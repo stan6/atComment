@@ -1,15 +1,16 @@
 # @tComment: Testing Javadoc Comments to Detect Comment-Code Inconsistencies
 @tComment automatically generate tests from Javadoc  comments,  specifically  tests for method  properties about null values and related exceptions
 #@tComment Design 
-@tComment consists of two components: (1) NullParam, and (2) cloned-randoop
+@tComment consists of two components, where each component is located in the subdirectories: (1) NullParam, and (2) cloned-randoop
 
 NullParam:
 - uses the default Doclet provided with the Javadoc tool to parse the Javadoc comments in a given project
-- Automatically generates null related properties inferred from the Javadoc comments
+- takes as input the source code for a Java project, automatically analyzes the English text in
+the Javadoc comments in the project, and outputs a set of inferred likely properties for each method
 
 cloned-randoop:
 - modified Randoop
-- Automatically generates tests that checks for comment-code inconsistencies automatically:
+- takes as input the same code and inferred properties, generates random tests for the methods in the code, checks the inferred properties, and reports inconsistencies.
 
 ##Instructions
 Below are the instructions for compiling the components in @tComment and to run one of the subject programs in the paper (i.e., ApacheCommonsCollections):<br />
