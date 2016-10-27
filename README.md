@@ -12,7 +12,7 @@ NullParam:
 the Javadoc comments in the project, and outputs a set of inferred likely properties for each method
 
 cloned-randoop:
-- modified Randoop
+- modified Randoop (obtained from Randoop version 1.3.1)
 - takes as input the same code and inferred properties, generates random tests for the methods in the code, checks the inferred properties, and reports inconsistencies.
 
 ##Instructions for Compilation: 
