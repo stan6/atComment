@@ -59,6 +59,11 @@ Created file: $DIR/RandoopTest.java
 
 File RandoopTest[0-9]+.java are the file with specific tests while RandoopTest.java is the test class that include all the generated RandoopTest[0-9]+.java.
 
+##Running @tComment for new subject
+1. Refer to `compile_proj` script for example of writing the compilation script for the new subject
+2. Refer to `run` script for supporting new subject. Note that `run` script requires a file "$projectname-classes.txt" that contains for each lines, full class name for each Java classess that you want @tComment to test. 
+*Note that as @tComment only analyzes null-related properties, if all Javadoc comments in your Java project do not mention any null related information, @tComment will work the same as the unmodified Randoop.
+
 ##Citing @tComment
 
 If you use @tComment in an academic work, we would be really glad if you cite our paper using the following bibtex:
