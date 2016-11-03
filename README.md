@@ -62,7 +62,7 @@ File RandoopTest[0-9]+.java are the file with specific tests while RandoopTest.j
 ##Running @tComment for new subject
 1. Refer to `compile_proj` script for example of writing the compilation script for the new subject
 2. Refer to `run` script for supporting new subject. Note that `run` script requires a file "$projectname-classes.txt" that contains for each lines, full class name (package name together with class name) for each Java classess that you want @tComment to test.  You could use the following command for obtaining the list of class name for a particular folder (assuming you run the command for the root folder that is a valid package (e.g., if you have statements like `import org.*` for importing the package in your Java classes, then `org` is the root folder) ):
-find $foldername -name "*.java" | sed -e 's/\.java/\.class/g;s/\//\./g'
+`find $foldername -name "*.java" | sed -e 's/\.java/\.class/g;s/\//\./g'`
 
 
 *Note that as @tComment only analyzes null-related properties, if all Javadoc comments in your Java project do not mention any null related information, @tComment will work the same as the unmodified Randoop.
