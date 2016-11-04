@@ -1,7 +1,6 @@
 #!/bin/bash
 currdir=$(pwd)
 function build_doclet() {
-  # svn co https://subversion.cs.illinois.edu/svn/cs597commentAnalysis/trunk/NullParam
   cd $currdir/NullParam
   ./compile
 }
