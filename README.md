@@ -72,13 +72,15 @@ File RandoopTest[0-9]+.java are the file with specific tests while RandoopTest.j
 If you use @tComment in an academic work, we would be really glad if you cite our paper using the following bibtex:
 
 ```
-@inproceedings{tan2012tcomment,
-  title={@ tcomment: Testing javadoc comments to detect comment-code inconsistencies},
-  author={Tan, Shin Hwei and Marinov, Darko and Tan, Lin and Leavens, Gary T},
-  booktitle={2012 IEEE Fifth International Conference on Software Testing, Verification and Validation},
-  pages={260--269},
-  year={2012},
-  organization={IEEE}
-}
+
+  @InProceedings{TanETAL2012atComment,
+    author = {Shin Hwei Tan and Darko Marinov and Lin Tan and Gary T. Leavens},
+    title = {{@tComment}: Testing {Javadoc} Comments to Detect Comment-Code Inconsistencies},
+    booktitle = {Proceedings of the Fifth IEEE International Conference on Software Testing, Verification and Validation (ICST 2012)},
+    pages = {260--269},
+    month = Apr,
+    year = 2012,
+    address = {Montreal, Canada}
+  }
 ```
 
